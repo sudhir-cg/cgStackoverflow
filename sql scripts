@@ -35,3 +35,44 @@ INSERT INTO tags (name, description, srcLogo) VALUES
 
 
 -----------------------------------------------------  TAGS TABLE -----------------------------------------------------  
+
+CREATE TABLE users (
+  id SERIAL ,
+  name VARCHAR(255) NOT NULL,
+  password VARCHAR (255) NOT NULL,
+  emailId VARCHAR (255) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE questions (
+  id serial,
+  userId INT NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  dateTime TIMESTAMP NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
+
+
+CREATE TABLE answers (
+  id SERIAL,
+  content TEXT NOT NULL,
+  upvotes INT NOT NULL,
+  questionId INT NOT NULL,
+  accepted BOOLEAN NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (questionId) REFERENCES questions(id)
+);
+
+
+CREATE TABLE QuestionComments (
+  id SERIAL,
+  content TEXT NOT NULL,
+  questionId INT NOT NULL,
+  userId INT NOT NULL,
+  upvotes INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (questionId) REFERENCES answers(id),
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
