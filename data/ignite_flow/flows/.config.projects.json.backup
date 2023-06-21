@@ -1,0 +1,7 @@
+{
+    "projects": {
+        "CG-Stackoverflow": {
+            "credentialSecret": "123"
+        }
+    }
+}

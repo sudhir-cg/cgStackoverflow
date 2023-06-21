@@ -1,0 +1,42 @@
+version: "3.9" # optional since v1.27.0
+services:
+  igc-irms-postgres:
+
+    image: postgres
+
+    restart: always
+
+    ports:
+
+      - "5433:5432"
+
+    environment:
+
+      POSTGRES_USER: "admin"
+
+      POSTGRES_PASSWORD: "admin123"
+      
+  igniteconnex:
+    image: igniteconnex.azurecr.io/runtime:3.0.6
+    ports:
+      - "1880:1880"
+    environment:
+      IGNITE_API_SECRET: 3376892f170fbbbe8035b51aa4f8455d0c07e9f6
+      PROJECT_NAME: igcnx-cg-stackoverflow
+      CLIENT_ID: cg-stackoverflow-sb
+      CLIENT_SECRET: pYZhadB53Y94EhRycFW1veVZjwakPmPG
+      AUTH_SERVER_URL: https://sso.igniteconnex.io/auth
+      APP_URL: http://localhost:1880
+      START_MODE: PROJECT
+      DB_SSL_OPTION: "false"
+
+
+      DATABASE_URL: "postgres://admin:admin123@[igc-irms-postgres]:5432/postgres"
+    volumes:
+      - ./data/ignite_flow:/usr/src/igniteconnex
+    depends_on:
+      - igc-irms-postgres
+networks:
+  default:
+    external: true
+    name: ignite
